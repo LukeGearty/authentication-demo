@@ -118,7 +118,13 @@ def login(username, password):
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
-    results = cursor.fetchall()[0]
+    rows = cursor.fetchall()
+
+    if not rows:
+        conn.close()
+        return False
+
+    results = rows[0]
 
     if results is None:
         conn.close()
